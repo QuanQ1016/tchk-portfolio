@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="TCHK 的全栈开发作品集">
+  <meta name="theme-color" content="#101c27">
+  <title>TCHK — Full-Stack Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page-grain" aria-hidden="true"></div>
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="返回作品集首页">
+      <span class="brand-mark">T.</span>
+      <span class="brand-text">TCHK / PORTFOLIO</span>
+    </a>
+    <button class="mobile-menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">
+      <span></span><span></span>
+      <span class="sr-only">打开导航</span>
+    </button>
+    <nav id="main-nav" class="main-nav" aria-label="页面导航">
+      <a href="#projects">项目档案</a>
+      <a href="#capabilities">能力图谱</a>
+      <a href="#about">关于我</a>
+      <a class="nav-cta" href="#contact">联系我 <span aria-hidden="true">↗</span></a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero section-shell" aria-labelledby="hero-title">
+      <div class="hero-layers" aria-hidden="true">
+        <div class="hero-layer hero-layer-1"></div>
+        <div class="hero-layer hero-layer-2"></div>
+        <div class="hero-layer hero-layer-3"></div>
+        <div class="hero-grid-bg"></div>
+      </div>
+      <div class="hero-meta reveal is-visible">
+        <span class="status-dot"></span>
+        <span>AVAILABLE FOR INTERNSHIP · 2026</span>
+      </div>
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow reveal is-visible">产品思维 × 项目推进 × 全栈交付</p>
+          <h1 id="hero-title" class="typewriter" data-type="把需求\n做成可运行的\n产品。" data-accent="可运行的" aria-label="把需求做成可运行的产品">把需求<br>做成<span>可运行的</span><br>产品。</h1>
+          <p class="hero-intro reveal is-visible">黄坤（TCHK）｜全栈开发工程师。围绕真实业务独立完成需求沟通、产品规划、前后端开发、测试与部署交付。</p>
+          <div class="hero-actions reveal is-visible">
+            <a class="button button-primary" href="#projects">查看项目 <span aria-hidden="true">↓</span></a>
+            <button class="button button-secondary" type="button" data-action="open-resume">项目速览 <span aria-hidden="true">↗</span></button>
+          </div>
+        </div>
+        <aside class="hero-index reveal is-visible" aria-label="作品集数据概览">
+          <div class="index-number" id="project-count">00</div>
+          <p>已归档项目</p>
+          <dl>
+            <div><dt>FOCUS</dt><dd>FULL STACK</dd></div>
+            <div><dt>STACK</dt><dd>JAVA / VUE / GO / PYTHON</dd></div>
+            <div><dt>MODE</dt><dd>BUILD · SHIP · ITERATE</dd></div>
+          </dl>
+        </aside>
+      </div>
+      <div class="hero-ticker" aria-hidden="true">
+        <div class="ticker-track">
+          <span>PRODUCT THINKING</span><i>✳</i><span>FULL-STACK DELIVERY</span><i>✳</i><span>AI-ASSISTED DEVELOPMENT</span><i>✳</i>
+          <span>PRODUCT THINKING</span><i>✳</i><span>FULL-STACK DELIVERY</span><i>✳</i><span>AI-ASSISTED DEVELOPMENT</span><i>✳</i>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="projects section-shell" aria-labelledby="projects-title">
+      <div class="section-layer" aria-hidden="true"><span></span><span></span></div>
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">01 / SELECTED WORK</p>
+          <h2 id="projects-title">项目档案</h2>
+        </div>
+        <p>按方向筛选，点击项目卡片在当前页面查看技术方案、功能范围与代码入口。</p>
+      </div>
+      <div class="project-controls">
+        <div id="filter-list" class="filter-list" role="tablist" aria-label="项目分类筛选"></div>
+        <label class="project-search">
+          <span class="sr-only">搜索项目</span>
+          <input id="project-search" type="search" placeholder="搜索项目 / 技术栈">
+          <span aria-hidden="true">⌕</span>
+        </label>
+      </div>
+      <div id="project-grid" class="project-grid" aria-live="polite"></div>
+      <p id="empty-state" class="empty-state" hidden>没有匹配的项目，试试更换关键词。</p>
+    </section>
+
+    <section id="capabilities" class="capabilities section-shell" aria-labelledby="capabilities-title">
+      <div class="section-layer" aria-hidden="true"><span></span><span></span></div>
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">02 / WORKING METHOD</p>
+          <h2 id="capabilities-title">不止写代码</h2>
+        </div>
+      </div>
+      <div class="capability-grid">
+        <article>
+          <span class="capability-no">01</span>
+          <h3>产品与项目推进</h3>
+          <p>将模糊需求拆解为业务流程、功能模块与交付节奏，持续推动项目从框架走向可用产品。</p>
+        </article>
+        <article>
+          <span class="capability-no">02</span>
+          <h3>跨栈工程实现</h3>
+          <p>覆盖 Vue、React、Java Spring Boot、Go、Python 等技术栈，完成前端、接口、数据与部署链路。</p>
+        </article>
+        <article>
+          <span class="capability-no">03</span>
+          <h3>AI 辅助交付</h3>
+          <p>将 AI 编程工具融入设计、开发、测试和问题排查，在保持可维护性的前提下加快复杂功能落地。</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="about" class="about section-shell" aria-labelledby="about-title">
+      <div class="section-layer" aria-hidden="true"><span></span><span></span></div>
+      <div class="about-stamp">TCHK<br><span>BUILD / 2026</span></div>
+      <div class="about-copy">
+        <p class="eyebrow">03 / ABOUT</p>
+        <h2 id="about-title">从业务现场<br>到部署上线。</h2>
+        <p>我目前在云南谦中科技有限公司担任产品经理、项目经理与全栈开发工程师。除了代码实现，也负责项目的沟通、规划与推进；我的作品集记录的是已经真实运行、持续迭代或完成交付的项目。</p>
+        <div class="about-facts">
+          <span>云南工商学院 · 软件工程</span>
+          <span>2022.08 — 2026.06</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="contact section-shell" aria-labelledby="contact-title">
+      <div class="section-layer" aria-hidden="true"><span></span><span></span></div>
+      <p class="eyebrow">04 / CONTACT</p>
+      <h2 id="contact-title">下一段经历，<br>一起把它做好。</h2>
+      <div class="contact-links">
+        <a href="mailto:kyfs450@qq.com">kyfs450@qq.com <span aria-hidden="true">↗</span></a>
+        <a href="https://gitee.com/QuanQ1016" target="_blank" rel="noreferrer">Gitee / QuanQ1016 <span aria-hidden="true">↗</span></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer section-shell">
+    <span>© 2026 TCHK</span>
+    <a href="#top">BACK TO TOP ↑</a>
+  </footer>
+
+  <dialog id="project-dialog" class="project-dialog" aria-labelledby="dialog-title">
+    <button class="dialog-close" type="button" aria-label="关闭项目详情" data-action="close-dialog">×</button>
+    <div id="dialog-content"></div>
+  </dialog>
+
+  <dialog id="resume-dialog" class="resume-dialog" aria-labelledby="resume-title">
+    <button class="dialog-close" type="button" aria-label="关闭项目速览" data-action="close-resume">×</button>
+    <div class="resume-card">
+      <p class="eyebrow">QUICK PROFILE</p>
+      <h2 id="resume-title">黄坤 / TCHK</h2>
+      <p>全栈开发工程师 · 产品经理 · 项目经理</p>
+      <ul>
+        <li>独立推动公租房运营、政务 IM、会议管理等业务系统交付</li>
+        <li>具备 Java、Go、Python、Vue、React 多技术栈实践</li>
+        <li>AI/OCR 民族文化识别系统已取得软件著作权登记</li>
+      </ul>
+      <a class="button button-primary" href="mailto:kyfs450@qq.com">联系我 <span aria-hidden="true">↗</span></a>
+    </div>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
