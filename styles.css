@@ -860,6 +860,116 @@ body::before {
 .project-dialog .dialog-project {
   overflow: visible;
 }
+
+/* AI 协作研发：把工具使用和应用研发拆成可验证的两层能力 */
+.ai-workflow {
+  position: relative;
+  margin-top: clamp(84px, 12vw, 170px);
+  padding: clamp(30px, 5vw, 62px);
+  overflow: hidden;
+  border: 1px solid rgba(183, 232, 255, .2);
+  background:
+    radial-gradient(circle at 82% 12%, rgba(156, 93, 255, .2), transparent 28%),
+    radial-gradient(circle at 13% 92%, rgba(24, 211, 208, .14), transparent 32%),
+    #09141e;
+}
+.ai-workflow::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: .52;
+  background-image: linear-gradient(rgba(176, 231, 255, .06) 1px, transparent 1px), linear-gradient(90deg, rgba(176, 231, 255, .06) 1px, transparent 1px);
+  background-size: 34px 34px;
+}
+.ai-workflow > * { position: relative; z-index: 1; }
+.ai-workflow-head { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(250px, .65fr); gap: 42px; align-items: end; padding-bottom: 33px; border-bottom: 1px solid rgba(210, 234, 247, .2); }
+.ai-workflow-head h2 { margin: 0; font-size: clamp(42px, 5.3vw, 76px); line-height: 1; letter-spacing: -.05em; font-weight: 900; }
+.ai-workflow-head > p { max-width: 405px; margin: 0 0 4px; color: #b4c6ce; font-size: 14px; line-height: 1.8; }
+.ai-workflow-grid { display: grid; grid-template-columns: minmax(0, 1.03fr) minmax(310px, .97fr); gap: clamp(28px, 5vw, 72px); margin-top: 35px; }
+.ai-pipeline { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; border-top: 1px solid rgba(210, 234, 247, .16); }
+.ai-pipeline li { display: grid; grid-template-columns: 46px 1fr; gap: 15px; padding: 16px 0; border-bottom: 1px solid rgba(210, 234, 247, .16); }
+.ai-pipeline li > span { color: #70e6e3; font: 500 11px/1.7 var(--mono); }
+.ai-pipeline b { display: block; color: #eff9f8; font-size: 16px; letter-spacing: -.02em; }
+.ai-pipeline p { margin: 4px 0 7px; color: #aebfc5; font-size: 12px; }
+.ai-pipeline small { color: #a9a0ff; font: 10px/1.3 var(--mono); }
+.ai-evidence { display: grid; gap: 10px; align-content: start; }
+.ai-evidence-top { display: flex; justify-content: space-between; gap: 10px; padding: 0 2px 2px; color: #8fa5ae; font: 9px/1.2 var(--mono); letter-spacing: .08em; }
+.ai-evidence-top i { color: #70e6e3; font-style: normal; }
+.ai-evidence article { min-height: 206px; padding: 22px; border: 1px solid rgba(210, 234, 247, .2); background: rgba(14, 29, 41, .8); }
+.ai-evidence article small { color: #70e6e3; font: 10px/1 var(--mono); letter-spacing: .08em; }
+.ai-evidence h3 { margin: 17px 0 11px; color: #f0f7f6; font-size: clamp(23px, 2.2vw, 31px); line-height: 1.12; letter-spacing: -.04em; }
+.ai-evidence p { margin: 0; color: #aebfc5; font-size: 12px; line-height: 1.75; }
+.evidence-tags, .ai-signal { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 16px 0 0; }
+.evidence-tags span, .ai-signal span { padding: 5px 7px; color: #cce9ee; border: 1px solid rgba(179, 231, 245, .25); font: 9px/1 var(--mono); }
+.ai-product-proof { background: linear-gradient(125deg, rgba(88, 52, 151, .35), rgba(9, 30, 42, .9)) !important; }
+.ai-signal { gap: 8px; margin: 15px 0; }
+.ai-signal i { width: 15px; height: 1px; background: #8774ff; }
+
+/* 首屏项目卡标记项目中的 AI 交付角色 */
+.card-ai-badge { display: inline-flex; margin-bottom: 10px; padding: 5px 7px; color: #bdf9ec; border: 1px solid rgba(155, 255, 232, .35); background: rgba(22, 185, 170, .12); font: 9px/1 var(--mono); letter-spacing: .03em; }
+.project-card-body .card-ai-badge + h3 { margin-top: 9px; }
+
+/* AI/OCR 项目详情：从静态截图改为可点击的识别流程演示 */
+.mock-ethnic { color: #182630; background: #f3efe5; font-family: var(--sans); }
+.mock-ethnic .ethnic-patternbar { height: 6px; background: repeating-linear-gradient(90deg, #1f6680 0 20px, #bd5a45 20px 40px, #e8b85e 40px 60px, #1f6680 60px 80px); }
+.mock-ethnic > header { display: flex; justify-content: space-between; align-items: center; padding: 13px 18px; color: #f7f0e3; background: #173e50; }
+.mock-ethnic > header h1 { margin: 0; color: inherit; font-size: 16px; line-height: 1; letter-spacing: -.02em; }
+.mock-ethnic > header nav { display: flex; gap: 13px; font-size: 9px; opacity: .86; }
+.mock-ethnic > main { padding: 16px; }
+.ethnic-workflow-head { display: flex; justify-content: space-between; align-items: center; gap: 14px; margin-bottom: 12px; }
+.ethnic-workflow-head > small { color: #56717c; font: 9px/1 var(--mono); letter-spacing: .05em; }
+.ethnic-stepper { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 4px; }
+.ethnic-stepper button { padding: 5px 7px; color: #557078; border: 1px solid #cdd6d4; background: #fbf9f2; cursor: pointer; font: 8px/1 var(--mono); transition: .2s ease; }
+.ethnic-stepper button:hover, .ethnic-stepper button.is-active { color: #fff; border-color: #1f6680; background: #1f6680; }
+.ethnic-uploadcard { display: grid; grid-template-columns: 1fr 1.35fr 1fr; gap: 10px; align-items: center; padding: 12px; border: 1px solid #d6d5cc; background: #fffdf8; }
+.ethnic-upload { display: grid; justify-items: center; gap: 6px; text-align: center; }
+.ethnic-upload > span { font-size: 21px; }
+.ethnic-upload button, .ethnic-actions .primary { padding: 6px 8px; color: #fff; border: 0; background: #bd5a45; font-size: 8px; }
+.ethnic-upload .upload-hint { margin: 0; color: #718287; font-size: 8px; }
+.ethnic-preview { display: grid; place-items: center; height: 77px; overflow: hidden; background: #e8e0d0; }
+.ethnic-preview img { width: 100%; height: 100%; object-fit: cover; }
+.ethnic-actions { display: grid; gap: 7px; }
+.workflow-state { color: #397466; font-size: 9px; line-height: 1.35; }
+.ethnic-ai-console { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin: 12px 0; }
+.workflow-node { position: relative; min-height: 65px; padding: 9px; color: #66747b; border: 1px solid #d5ddda; background: #edf0eb; transition: .22s ease; }
+.workflow-node:not(:last-child)::after { content: "→"; position: absolute; z-index: 2; top: 23px; right: -10px; color: #ab8d63; font-weight: 700; }
+.workflow-node b { display: block; margin-bottom: 5px; color: #41555d; font-size: 9px; }
+.workflow-node span { display: block; font-size: 8px; line-height: 1.35; }
+.ethnic-workflow[data-ai-step="precheck"] .node-precheck,
+.ethnic-workflow[data-ai-step="ocr"] .node-ocr,
+.ethnic-workflow[data-ai-step="match"] .node-match,
+.ethnic-workflow[data-ai-step="review"] .node-review { color: #f8f5ed; border-color: #1f6680; background: #1f6680; box-shadow: 0 6px 15px rgba(31, 102, 128, .25); }
+.ethnic-workflow[data-ai-step="precheck"] .node-precheck b,
+.ethnic-workflow[data-ai-step="ocr"] .node-ocr b,
+.ethnic-workflow[data-ai-step="match"] .node-match b,
+.ethnic-workflow[data-ai-step="review"] .node-review b { color: #fff; }
+.ethnic-result { padding: 12px; background: #fffdf8; border: 1px solid #d6d5cc; }
+.ethnic-result h2 { display: flex; justify-content: space-between; align-items: center; margin: 0 0 8px; color: #334a53; font-size: 13px; }
+.confidence-badge { padding: 4px 6px; color: #1f6680; background: #e5f0ed; font: 9px/1 var(--mono); }
+.result-content { display: grid; grid-template-columns: 110px 1fr; gap: 12px; }
+.result-image { height: 102px; overflow: hidden; background: #f5f1e8; }
+.result-image img { width: 100%; height: 100%; object-fit: cover; }
+.result-text h3 { margin: 4px 0 6px; color: #273f48; font-size: 13px; }
+.result-text .introduction { margin: 0 0 8px; color: #62747a; font-size: 9px; line-height: 1.6; }
+.translated-text { padding: 7px; color: #486571; background: #edf2ef; font-size: 9px; }
+.mock-ethnic > footer { padding: 9px 16px; color: #e7e4d9; background: #173e50; }
+.mock-ethnic > footer p { margin: 0; font: 8px/1.2 var(--mono); letter-spacing: .06em; }
+
+@media (max-width: 780px) {
+  .ai-workflow { padding: 24px 18px; }
+  .ai-workflow-head, .ai-workflow-grid { grid-template-columns: 1fr; gap: 24px; }
+  .ai-workflow-head h2 { font-size: clamp(40px, 13vw, 62px); }
+  .ai-evidence article { min-height: auto; }
+  .ethnic-workflow-head { align-items: flex-start; flex-direction: column; }
+  .ethnic-stepper { justify-content: flex-start; }
+  .ethnic-uploadcard { grid-template-columns: 1fr; }
+  .ethnic-preview { height: 105px; }
+  .ethnic-ai-console { grid-template-columns: 1fr 1fr; }
+  .workflow-node:not(:last-child)::after { display: none; }
+  .result-content { grid-template-columns: 1fr; }
+  .result-image { height: 130px; }
+}
 @media (max-width: 780px) {
   .project-card .project-card-top,
   .project-card .project-card-body,

@@ -10,6 +10,7 @@ const projects = [
     stack: ["Vue 3", "React", "Spring Boot", "MySQL", "Redis"],
     features: ["Web 管理后台、租户 H5 与物业移动端多端协同", "房源、合同、缴费、退租与违约业务模块", "银行支付、电子合同、电子发票等第三方对接", "Excel 导入导出与 Word / PDF 文档生成"],
     role: "产品经理 / 项目经理 / AI 辅助全栈开发",
+    aiMode: "AI 协作交付",
     source: ""
   },
   {
@@ -23,6 +24,7 @@ const projects = [
     stack: ["Go", "Gin", "Vue 3", "WebSocket", "Redis"],
     features: ["OA SSO 单点登录、签名校验与用户自动注册", "未读消息汇总和 OA / IM 前端桥接", "部门、岗位、成员等组织架构管理", "银河麒麟 ARM64 私有化部署方案"],
     role: "产品经理 / 项目经理 / AI 辅助全栈开发",
+    aiMode: "AI 协作交付",
     source: ""
   },
   {
@@ -36,6 +38,7 @@ const projects = [
     stack: ["Vue 3", "TypeScript", "Spring Boot", "MySQL", "Nginx"],
     features: ["会议室周视图预约、会议创建与审批", "时间重叠和参会人数超容量检测", "用户、部门、会议室后台管理", "附件上传、预览、下载、ZIP 打包与密码保护"],
     role: "产品经理 / 项目经理 / AI 辅助全栈开发",
+    aiMode: "AI 协作交付",
     source: ""
   },
   {
@@ -48,7 +51,8 @@ const projects = [
     summary: "面向民族文化文字与图案识别需求的 AI/OCR 系统，可识别图像内容、匹配文化图案并翻译藏文，已取得软件著作权登记。",
     stack: ["Python", "FastAPI", "ResNet50", "OCR", "SQLite"],
     features: ["图片上传与 SSE 流式识别反馈", "豆包视觉模型图像预审、文字识别与文化解读", "ResNet50 特征提取与余弦相似度图案匹配", "用户修正、AI 仲裁、管理员审核入库的数据闭环"],
-    role: "产品经理 / 项目经理 / AI 辅助全栈开发",
+    role: "产品经理 / 项目经理 / AI 应用全栈开发",
+    aiMode: "AI 应用研发",
     source: ""
   },
   {
@@ -455,35 +459,43 @@ function renderMockUI(project) {
         </div>
       </div>`,
     ocr: `
-      <div class="mock-app mock-ethnic">
+      <div class="mock-app mock-ethnic ethnic-workflow" data-ai-step="precheck">
         <div class="ethnic-patternbar"></div>
-        <header><h1>民族文化 AI 识别系统</h1><nav><a>探索文化展廊</a><a>管理员入口</a></nav></header>
+        <header><h1>民族文化 AI 识别系统</h1><nav><a>识别工作流</a><a>管理员审核</a></nav></header>
         <main>
+          <div class="ethnic-workflow-head">
+            <small>AI WORKFLOW / 可点击切换步骤</small>
+            <div class="ethnic-stepper" role="tablist" aria-label="AI 识别工作流">
+              <button type="button" class="is-active" data-ai-step="precheck">01 图像预审</button>
+              <button type="button" data-ai-step="ocr">02 OCR 解读</button>
+              <button type="button" data-ai-step="match">03 特征匹配</button>
+              <button type="button" data-ai-step="review">04 人工审核</button>
+            </div>
+          </div>
           <div class="ethnic-uploadcard">
             <div class="ethnic-upload">
               <span>📜</span>
-              <button class="accent">选择图片</button>
-              <p class="upload-hint">支持 JPG、PNG 格式</p>
+              <button class="accent" type="button">已上传图像</button>
+              <p class="upload-hint">彝族服饰纹样 · JPG</p>
             </div>
             <div class="ethnic-preview"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='120'%3E%3Crect fill='%23e8e0d0' width='180' height='120'/%3E%3Cpath d='M45 60c15-20 30-20 45 0s30 20 45 0' stroke='%231A5F7A' fill='none' stroke-width='2'/%3E%3Ccircle cx='90' cy='50' r='12' fill='%23C8553D'/%3E%3C/svg%3E" alt="图案预览"></div>
-            <div class="ethnic-actions"><button class="primary">开始识别</button><button class="secondary">重新选择</button></div>
+            <div class="ethnic-actions"><span class="workflow-state">图像质量检测通过</span><button class="primary" type="button">处理完成</button></div>
           </div>
-          <div class="ethnic-log"><div class="log-title">日志记录</div><span>正在建立分析连接…</span><span>图像预处理完成</span><span>特征提取: 彝族服饰纹样</span></div>
+          <div class="ethnic-ai-console">
+            <div class="workflow-node node-precheck"><b>视觉模型预审</b><span>图像有效 · 文字区域已定位</span></div>
+            <div class="workflow-node node-ocr"><b>OCR / 文化解读</b><span>ꆈꌠꁱꂷ → 吉祥如意</span></div>
+            <div class="workflow-node node-match"><b>ResNet50 特征匹配</b><span>彝族服饰纹样 · 相似度 87.35%</span></div>
+            <div class="workflow-node node-review"><b>人工修正 / 审核入库</b><span>保留修正记录，进入文化知识库</span></div>
+          </div>
           <div class="ethnic-result">
-            <h2>分析结果</h2>
+            <h2>当前输出 <span class="confidence-badge">87.35%</span></h2>
             <div class="result-content">
               <div class="result-image"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='260'%3E%3Crect fill='%23f5f1e8' width='200' height='260'/%3E%3Cpath d='M60 80c20-25 60-25 80 0s60 25 80 0M60 120c20-25 60-25 80 0s60 25 80 0M60 160c20-25 60-25 80 0s60 25 80 0' stroke='%231A5F7A' fill='none' stroke-width='2'/%3E%3Ccircle cx='100' cy='200' r='20' fill='%23C8553D'/%3E%3C/svg%3E" alt="识别结果"></div>
-              <div class="result-text">
-                <h3>彝族服饰纹样 <span class="confidence-badge" data-value="0.87">87.35%</span></h3>
-                <p class="introduction">该纹样以云纹、火焰纹为主，体现彝族对自然的崇拜与独特的审美情趣，常见于节日盛装。</p>
-                <h4>识别出的文字</h4>
-                <div class="original-text">ꆈꌠꁱꂷ</div>
-                <div class="translated-text">彝文原文 / 中文翻译：吉祥如意</div>
-              </div>
+              <div class="result-text"><h3>彝族服饰纹样</h3><p class="introduction">云纹、火焰纹等特征与知识库条目匹配；识别、修正与审核结果可持续沉淀。</p><div class="translated-text">彝文原文 / 中文翻译：吉祥如意</div></div>
             </div>
           </div>
         </main>
-        <footer><p>民族文化AI识别系统 © 2025</p></footer>
+        <footer><p>MODEL → MATCH → HUMAN REVIEW → KNOWLEDGE BASE</p></footer>
       </div>`,
     tutor: `
       <div class="mock-app mock-dual mock-tutor">
@@ -777,6 +789,7 @@ function projectCard(project, index) {
   const tagCells = project.stack.map((tag) => `<span class="tag">${tag}</span>`).join("");
   const tagTrack = Array(6).fill(tagCells).join("");
   const flowDuration = Math.max(10, project.stack.length * 2.2);
+  const aiBadge = project.aiMode ? `<span class="card-ai-badge">${project.aiMode}</span>` : "";
   const categoryClass = `cat-${project.category.replace(/[^\u4e00-\u9fa5a-zA-Z0-9]/g, "-")}`;
   const coverType = {
     huiqingjia: "dashboard",
@@ -810,6 +823,7 @@ function projectCard(project, index) {
       </div>
       <div class="project-card-top"><span class="card-category">${project.category.toUpperCase()}</span><span class="card-year">${project.year}</span></div>
       <div class="project-card-body">
+        ${aiBadge}
         <h3>${project.title}</h3>
         <p>${project.summary}</p>
       </div>
@@ -887,6 +901,16 @@ projectGrid.addEventListener("click", (event) => {
 
 document.addEventListener("click", (event) => {
   const action = event.target.closest("[data-action]")?.dataset.action;
+  const aiStep = event.target.closest("[data-ai-step]");
+  if (aiStep) {
+    const workflow = aiStep.closest(".ethnic-workflow");
+    if (workflow) {
+      workflow.dataset.aiStep = aiStep.dataset.aiStep;
+      workflow.querySelectorAll("[data-ai-step]").forEach((button) => {
+        button.classList.toggle("is-active", button === aiStep);
+      });
+    }
+  }
   if (action === "open-resume") resumeDialog.showModal();
   if (action === "close-dialog") projectDialog.close();
   if (action === "close-resume") resumeDialog.close();
