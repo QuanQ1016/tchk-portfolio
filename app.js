@@ -309,7 +309,7 @@ function renderMockUI(project) {
           <small>JAVA / LLM</small>
         </aside>
         <main>
-          <header><span>生成工作台 / 产品发布方案</span><b>EXPORT PPTX</b></header>
+          <header><span>生成工作台 / 产品发布方案</span><button type="button" data-demo-label="已打开导出质量检查">EXPORT PPTX</button></header>
           <div class="ppt-flow">
             <span class="is-done">01 材料解析</span><i></i>
             <span class="is-done">02 大纲 Agent</span><i></i>
@@ -839,7 +839,19 @@ function renderMockUI(project) {
     archive: `
       <div class="mock-app mock-archive"><div><small>PROJECT SOURCE ARCHIVE</small><h4>${project.title}</h4><p>该项目的页面源码需在可访问的私有仓库中提取后，才能按真实 UI 制作模拟界面。</p><span>当前不展示仓库链接，也不虚构页面结构。</span></div></div>`
   };
-  return `<section class="project-demo"><div class="demo-bar"><span>UI 演示</span></div>${views[mockType]}</section>`;
+  return `
+    <section class="project-demo interactive-demo" data-demo-project="${project.id}">
+      <div class="demo-bar">
+        <span>LIVE UI DEMO</span>
+        <div class="demo-bar-actions">
+          <span class="demo-live"><i></i> 可交互</span>
+          <button type="button" data-demo-action="reset">重置界面</button>
+        </div>
+      </div>
+      <div class="demo-viewport">${views[mockType]}</div>
+      <div class="demo-toast" role="status" aria-live="polite"></div>
+    </section>
+  `;
 }
 
 function projectCard(project, index) {
@@ -914,10 +926,11 @@ function renderHeroProjects() {
   heroProjectRow.innerHTML = [...projects]
     .sort((left, right) => Number(Boolean(right.featured)) - Number(Boolean(left.featured)))
     .slice(0, 8)
-    .map((project) => `
+    .map((project, index) => `
     <button class="orbit-card" type="button" data-orbit-project="${project.id}"
-      style="--orbit-color:${project.color}" aria-label="查看${project.title}">
+      style="--orbit-color:${project.color}; --orbit-index:${index}" aria-label="查看${project.title}">
       <b>${project.title}</b>
+      <span class="orbit-preview" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
       <small>${project.category.toUpperCase()}</small>
       <i aria-hidden="true">↗</i>
     </button>
@@ -951,8 +964,144 @@ function openProject(projectId) {
       </div>
     </article>
   `;
-  projectDialog.showModal();
+  prepareInteractiveDemo();
+  if (!projectDialog.open) {
+    projectDialog.showModal();
+  }
 }
+
+const DEMO_CONTROL_SELECTOR = [
+  ".mock-app nav a",
+  ".mock-app nav span",
+  ".mock-app aside a",
+  ".mock-app button",
+  ".lumen-menu nav b",
+  ".lumen-session-tabs span",
+  ".mini-tabbar span",
+  ".ppt-flow span",
+  ".ppt-outline span",
+  ".lumen-session article",
+  ".meeting-card",
+  ".mini-quick > div",
+  ".h5-filter span",
+  ".h5-house-list article",
+  ".teacher-scroll article",
+  ".subject-grid > div",
+  ".venue-scroll article",
+  ".property-grid > div",
+  ".property-house-row",
+  ".property-notice-row",
+  ".editor-tabs span",
+  ".value-grid b",
+  ".product-row article",
+  ".car-list-mini article",
+  ".admin-cards article",
+  ".lab-tabs > *",
+  ".hotel-card",
+  ".mock-archive > div"
+].join(",");
+
+function prepareInteractiveDemo() {
+  dialogContent.querySelectorAll(DEMO_CONTROL_SELECTOR).forEach((control) => {
+    if (!control.matches("button, a[href]")) {
+      control.setAttribute("role", "button");
+      control.tabIndex = 0;
+    }
+  });
+}
+
+function showDemoToast(demo, message) {
+  const toast = demo.querySelector(".demo-toast");
+  if (!toast) return;
+  toast.textContent = message;
+  toast.classList.remove("is-visible");
+  requestAnimationFrame(() => toast.classList.add("is-visible"));
+  clearTimeout(demo.demoToastTimer);
+  demo.demoToastTimer = setTimeout(() => toast.classList.remove("is-visible"), 2200);
+}
+
+function selectDemoControl(control) {
+  const siblings = control.parentElement ? [...control.parentElement.children] : [];
+  const activeClass = siblings.some((item) => item.classList.contains("is-active"))
+    ? "is-active"
+    : siblings.some((item) => item.classList.contains("active"))
+      ? "active"
+      : "";
+
+  siblings.forEach((item) => {
+    item.classList.remove("is-demo-selected");
+    if (activeClass) item.classList.remove(activeClass);
+  });
+  control.classList.add("is-demo-selected");
+  if (activeClass) control.classList.add(activeClass);
+}
+
+function interactWithDemo(control, demo) {
+  const projectId = demo.dataset.demoProject;
+  const label = control.dataset.demoLabel || control.textContent.replace(/\s+/g, " ").trim();
+  selectDemoControl(control);
+
+  if (projectId === "ai-ppt" && control.matches(".ppt-outline span")) {
+    const slides = [
+      ["PRODUCT / 01", "把复杂材料<br>变成清晰表达"],
+      ["CAPABILITY / 02", "从材料理解<br>到页面生成"],
+      ["ARCHITECTURE / 03", "多 Agent 协作<br>驱动可靠交付"],
+      ["DELIVERY / 04", "校验、修复<br>再导出 PPTX"]
+    ];
+    const index = [...control.parentElement.querySelectorAll("span")].indexOf(control);
+    const slide = demo.querySelector(".ppt-slide");
+    if (slide && slides[index]) {
+      slide.classList.remove("is-switching");
+      void slide.offsetWidth;
+      slide.querySelector("small").textContent = slides[index][0];
+      slide.querySelector("h4").innerHTML = slides[index][1];
+      slide.classList.add("is-switching");
+    }
+    showDemoToast(demo, `已切换到第 ${String(index + 1).padStart(2, "0")} 页`);
+    return;
+  }
+
+  if (projectId === "ai-ppt" && control.matches(".ppt-flow span")) {
+    showDemoToast(demo, `${label} · Agent 状态已同步`);
+    return;
+  }
+
+  if (projectId === "oa-im" && control.matches(".lumen-session article")) {
+    const name = control.querySelector("b")?.textContent || "会话";
+    const title = demo.querySelector(".lumen-chat-title b");
+    if (title) title.textContent = name;
+    showDemoToast(demo, `已进入 ${name}`);
+    return;
+  }
+
+  if (control.matches("button")) {
+    control.classList.add("is-demo-complete");
+  }
+  showDemoToast(demo, label ? `已操作：${label.slice(0, 24)}` : "界面状态已更新");
+}
+
+projectDialog.addEventListener("click", (event) => {
+  const resetButton = event.target.closest("[data-demo-action='reset']");
+  if (resetButton) {
+    const demo = resetButton.closest(".interactive-demo");
+    if (demo) openProject(demo.dataset.demoProject);
+    return;
+  }
+
+  const control = event.target.closest(DEMO_CONTROL_SELECTOR);
+  const demo = control?.closest(".interactive-demo");
+  if (!control || !demo) return;
+  event.preventDefault();
+  interactWithDemo(control, demo);
+});
+
+projectDialog.addEventListener("keydown", (event) => {
+  if (!["Enter", " "].includes(event.key)) return;
+  const control = event.target.closest(DEMO_CONTROL_SELECTOR);
+  if (!control || control.matches("button, a[href]")) return;
+  event.preventDefault();
+  control.click();
+});
 
 filterList.addEventListener("click", (event) => {
   const button = event.target.closest("[data-filter]");
@@ -1034,6 +1183,47 @@ hero?.addEventListener("pointermove", (event) => {
 window.addEventListener("scroll", () => {
   caseOrbit?.classList.toggle("is-page-scrolled", window.scrollY > 28);
 }, { passive: true });
+
+function initHeroOrbitMotion() {
+  if (!heroProjectRow || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  let activeIndex = -1;
+  let orbitTimer = 0;
+
+  const activateNextCard = () => {
+    const cards = [...heroProjectRow.querySelectorAll(".orbit-card")]
+      .filter((card) => getComputedStyle(card).display !== "none");
+    if (!cards.length) return;
+    cards.forEach((card) => card.classList.remove("is-auto-active"));
+    activeIndex = (activeIndex + 1) % cards.length;
+    cards[activeIndex].classList.add("is-auto-active");
+  };
+
+  const pauseOrbit = () => {
+    clearInterval(orbitTimer);
+    orbitTimer = 0;
+    heroProjectRow.classList.add("is-user-exploring");
+  };
+
+  const resumeOrbit = () => {
+    if (orbitTimer || document.hidden) return;
+    heroProjectRow.classList.remove("is-user-exploring");
+    orbitTimer = setInterval(activateNextCard, 1700);
+  };
+
+  heroProjectRow.addEventListener("pointerenter", pauseOrbit);
+  heroProjectRow.addEventListener("pointerleave", resumeOrbit);
+  heroProjectRow.addEventListener("focusin", pauseOrbit);
+  heroProjectRow.addEventListener("focusout", (event) => {
+    if (!heroProjectRow.contains(event.relatedTarget)) resumeOrbit();
+  });
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) pauseOrbit();
+    else resumeOrbit();
+  });
+
+  activateNextCard();
+  resumeOrbit();
+}
 
 /* ---------- 打字机标题 ---------- */
 function initTypewriter() {
@@ -1128,6 +1318,7 @@ function initCountUp() {
 renderFilters();
 renderProjects();
 renderHeroProjects();
+initHeroOrbitMotion();
 initTypewriter();
 initReveal();
 initCountUp();
