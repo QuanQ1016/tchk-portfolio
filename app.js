@@ -22,7 +22,7 @@ const projects = [
     textColor: "#101c27",
     summary: "基于 Java 21 构建的多阶段 AI 智能体应用：从材料解析、大纲规划、单页生成自纠、自然语言编辑，到质量门禁与原生可编辑 PPTX 导出。",
     stack: ["Java 21", "Spring Boot", "LangChain4j", "LangGraph4j", "Redis", "PostgreSQL", "Apache POI", "React 19"],
-    features: ["大纲规划智能体：System / User Prompt、JSON 结构化输出、页数与来源引用校验", "单页生成智能体：LangGraph4j 编排 prepare → generate → check → repair 自纠工作流", "AI 编辑智能体：Function Calling 多轮调用编辑工具，支持替换、新增、删除及内容类型变更", "Java 虚拟线程 + Semaphore 实现页级并发，Redis 队列、Worker 重试与 SSE 实时进度", "支持主题、长文本及 PDF / Word / Markdown / TXT 材料解析，控制上下文长度与来源引用", "React 19 在线编辑器支持缩略图、16:9 画布、主题版式、灵活布局和演示模式", "导出前执行结构与文字溢出分级门禁，Apache POI 生成原生对象并回读验证页数、边界、表格、图表与文字完整性"],
+    features: ["大纲规划智能体：System / User Prompt、JSON 结构化输出、页数与来源引用校验", "单页生成智能体：LangGraph4j 编排 prepare → generate → check → repair 自纠工作流", "AI 编辑智能体：Function Calling 多轮调用编辑工具，支持替换、新增、删除及内容类型变更", "Java 虚拟线程 + Semaphore 实现页级并发；Redis 队列与独立 Worker 执行任务，SSE 快照支持断线恢复、失败页单独重试与软取消", "支持主题、长文本及 PDF / Word / Markdown / TXT 材料解析，控制上下文长度与来源引用", "React 19 在线编辑器支持缩略图、16:9 画布、主题版式、灵活布局和演示模式", "导出前执行结构与文字溢出分级门禁，Apache POI 生成原生对象并回读验证页数、边界、表格、图表与文字完整性"],
     role: "AI 智能体应用全栈开发 / Java LLM 工程",
     aiMode: "AI 智能体项目",
     featured: true,
