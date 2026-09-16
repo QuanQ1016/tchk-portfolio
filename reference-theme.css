@@ -469,6 +469,47 @@ body {
 .dialog-project { border: 1px solid var(--hairline-strong); border-radius: 28px; }
 .dialog-close { color: var(--void); background: var(--signal); }
 .resume-card { color: var(--void); background: var(--signal); border-radius: 28px; }
+.contact-dialog {
+  width: min(680px, calc(100% - 30px));
+  padding: 0;
+  overflow: visible;
+}
+.contact-dialog::backdrop { background: rgba(4, 11, 16, .88); backdrop-filter: blur(10px); }
+.contact-card {
+  padding: clamp(32px, 6vw, 66px);
+  border: 1px solid var(--hairline-strong);
+  border-radius: 28px;
+  color: var(--white);
+  background:
+    radial-gradient(circle at 88% 8%, rgba(186,255,25,.18), transparent 29%),
+    #0b100e;
+}
+.contact-card h2 {
+  margin: 28px 0 38px;
+  font-size: clamp(45px, 7vw, 78px);
+  line-height: .92;
+  letter-spacing: -.055em;
+}
+.contact-detail-list { display: grid; border-top: 1px solid var(--hairline); }
+.contact-detail-list a {
+  display: grid;
+  grid-template-columns: 80px 1fr auto;
+  gap: 15px;
+  align-items: center;
+  min-height: 78px;
+  border-bottom: 1px solid var(--hairline);
+  transition: color .25s ease, padding .3s var(--ease-out), background .25s ease;
+}
+.contact-detail-list a:hover,
+.contact-detail-list a:focus-visible {
+  padding-inline: 12px;
+  color: var(--void);
+  background: var(--signal);
+  outline: none;
+}
+.contact-detail-list span { font: 9px/1 var(--mono); letter-spacing: .1em; opacity: .65; }
+.contact-detail-list strong { font-size: clamp(17px, 3vw, 25px); overflow-wrap: anywhere; }
+.contact-detail-list i { font-style: normal; }
 
 .mock-ai-ppt {
   display: grid;

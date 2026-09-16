@@ -272,6 +272,7 @@ const projectCount = document.querySelector("#project-count");
 const projectDialog = document.querySelector("#project-dialog");
 const dialogContent = document.querySelector("#dialog-content");
 const resumeDialog = document.querySelector("#resume-dialog");
+const contactDialog = document.querySelector("#contact-dialog");
 const heroProjectRow = document.querySelector("#hero-project-row");
 
 function renderMockUI(project) {
@@ -985,11 +986,16 @@ document.addEventListener("click", (event) => {
     }
   }
   if (action === "open-resume") resumeDialog.showModal();
+  if (action === "open-contact") {
+    resumeDialog.close();
+    contactDialog.showModal();
+  }
   if (action === "close-dialog") projectDialog.close();
   if (action === "close-resume") resumeDialog.close();
+  if (action === "close-contact") contactDialog.close();
 });
 
-for (const dialog of [projectDialog, resumeDialog]) {
+for (const dialog of [projectDialog, resumeDialog, contactDialog]) {
   dialog.addEventListener("click", (event) => {
     if (event.target === dialog) dialog.close();
   });
