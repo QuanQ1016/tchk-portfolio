@@ -15,16 +15,17 @@ const projects = [
   },
   {
     id: "ai-ppt",
-    title: "AI 智能 PPT 生成平台",
+    title: "AI PPT 智能体生成平台",
     category: "人工智能",
-    year: "2026",
+    year: "2026 · COMPLETED",
     color: "#70e6e3",
     textColor: "#101c27",
-    summary: "使用 Java 构建的 LLM 内容生成平台，覆盖文档解析、大纲规划、页面生成、AI 编辑、质量检查与原生 PPTX 导出。",
-    stack: ["Java 21", "Spring Boot", "LangChain4j", "LangGraph4j", "Redis", "React"],
-    features: ["System / User Prompt 与 JSON 结构化输出", "LangGraph4j 生成、校验与反馈修复工作流", "Function Calling 驱动的 AI 单页编辑工具", "Redis 异步任务、SSE 进度与失败重试", "PDF / Word / Markdown 解析与 PPTX 回读验证"],
-    role: "AI 应用全栈开发 / Java LLM 应用开发",
-    aiMode: "LLM 应用工程",
+    summary: "基于 Java 21 构建的多阶段 AI 智能体应用：从材料解析、大纲规划、单页生成自纠、自然语言编辑，到质量门禁与原生可编辑 PPTX 导出。",
+    stack: ["Java 21", "Spring Boot", "LangChain4j", "LangGraph4j", "Redis", "PostgreSQL", "Apache POI", "React 19"],
+    features: ["大纲规划智能体：System / User Prompt、JSON 结构化输出、页数与来源引用校验", "单页生成智能体：LangGraph4j 编排 prepare → generate → check → repair 自纠工作流", "AI 编辑智能体：Function Calling 多轮调用编辑工具，支持替换、新增、删除及内容类型变更", "Java 虚拟线程 + Semaphore 实现页级并发，Redis 队列、Worker 重试与 SSE 实时进度", "支持主题、长文本及 PDF / Word / Markdown / TXT 材料解析，控制上下文长度与来源引用", "React 19 在线编辑器支持缩略图、16:9 画布、主题版式、灵活布局和演示模式", "导出前执行结构与文字溢出分级门禁，Apache POI 生成原生对象并回读验证页数、边界、表格、图表与文字完整性"],
+    role: "AI 智能体应用全栈开发 / Java LLM 工程",
+    aiMode: "AI 智能体项目",
+    featured: true,
     source: ""
   },
   {
@@ -310,10 +311,10 @@ function renderMockUI(project) {
         <main>
           <header><span>生成工作台 / 产品发布方案</span><b>EXPORT PPTX</b></header>
           <div class="ppt-flow">
-            <span class="is-done">01 文档解析</span><i></i>
-            <span class="is-done">02 大纲规划</span><i></i>
-            <span class="is-active">03 页面生成</span><i></i>
-            <span>04 质量检查</span>
+            <span class="is-done">01 材料解析</span><i></i>
+            <span class="is-done">02 大纲 Agent</span><i></i>
+            <span class="is-active">03 单页 StateGraph</span><i></i>
+            <span>04 导出门禁</span>
           </div>
           <section class="ppt-canvas">
             <div class="ppt-outline">
@@ -329,10 +330,10 @@ function renderMockUI(project) {
               <div class="ppt-bars"><i></i><i></i><i></i></div>
             </div>
             <div class="ppt-agent">
-              <b>AI AGENT</b>
-              <p>结构校验通过</p>
-              <p>版式适配完成</p>
-              <p class="running">正在生成第 3 / 8 页</p>
+              <b>AGENT ORCHESTRATION</b>
+              <p>Planner · 大纲已确认</p>
+              <p>Editor · Tools Ready</p>
+              <p class="running">Slide Agent · CHECK / REPAIR</p>
             </div>
           </section>
         </main>
@@ -898,7 +899,7 @@ function renderFilters() {
 
 function renderProjects() {
   const keyword = state.keyword.trim().toLowerCase();
-  const filtered = projects.filter((project) => {
+  const filtered = [...projects].sort((left, right) => Number(Boolean(right.featured)) - Number(Boolean(left.featured))).filter((project) => {
     const inCategory = state.category === "全部" || project.category === state.category;
     const searchable = [project.title, project.category, project.summary, ...project.stack, ...project.features].join(" ").toLowerCase();
     return inCategory && (!keyword || searchable.includes(keyword));
@@ -910,7 +911,10 @@ function renderProjects() {
 
 function renderHeroProjects() {
   if (!heroProjectRow) return;
-  heroProjectRow.innerHTML = projects.slice(0, 8).map((project) => `
+  heroProjectRow.innerHTML = [...projects]
+    .sort((left, right) => Number(Boolean(right.featured)) - Number(Boolean(left.featured)))
+    .slice(0, 8)
+    .map((project) => `
     <button class="orbit-card" type="button" data-orbit-project="${project.id}"
       style="--orbit-color:${project.color}" aria-label="查看${project.title}">
       <b>${project.title}</b>
