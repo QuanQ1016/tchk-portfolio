@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="reference-theme.css">
 </head>
 <body>
   <div class="page-grain" aria-hidden="true"></div>
@@ -31,25 +32,34 @@
   </header>
 
   <main id="top">
-    <section class="hero section-shell" aria-labelledby="hero-title">
+    <section class="hero" aria-labelledby="hero-title">
       <div class="hero-layers" aria-hidden="true">
         <div class="hero-layer hero-layer-1"></div>
         <div class="hero-layer hero-layer-2"></div>
         <div class="hero-layer hero-layer-3"></div>
         <div class="hero-grid-bg"></div>
+        <div class="hero-code-plane">
+          <span>SPRING BOOT / LANGGRAPH4J</span>
+          <span>BUILD · VERIFY · SHIP</span>
+          <span>FULL-STACK DELIVERY SYSTEM</span>
+        </div>
       </div>
-      <div class="hero-meta reveal is-visible">
-        <span class="status-dot"></span>
-        <span>AI-ENABLED FULL-STACK DELIVERY · 2026</span>
-      </div>
-      <div class="hero-grid">
+      <div class="hero-content section-shell">
+        <div class="hero-meta reveal is-visible">
+          <span class="status-dot"></span>
+          <span>AVAILABLE FOR AI APPLICATION ENGINEERING · 2026</span>
+        </div>
+        <div class="hero-grid">
         <div class="hero-copy">
-          <p class="eyebrow reveal is-visible">产品思维 × AI 协作研发 × 全栈交付</p>
-          <h1 id="hero-title" class="typewriter" data-type="把需求\n用 AI 协作\n做成产品。" data-accent="AI 协作" aria-label="把需求用 AI 协作做成产品">把需求<br>用<span>AI 协作</span><br>做成产品。</h1>
-          <p class="hero-intro reveal is-visible">黄坤（TCHK）｜AI 协作全栈开发工程师。把 Claude Code、Cursor、Codex、Gemini 与 Pencil 纳入需求、设计、开发、测试和部署链路；也能将视觉模型、OCR 与特征匹配做成可交付的 AI 应用。</p>
+          <p class="eyebrow reveal is-visible">黄坤 / AI 应用全栈开发工程师</p>
+          <h1 id="hero-title" aria-label="TCHK AI LLM Application Engineer">
+            <span class="hero-name">TCHK</span>
+            <small>AI / LLM APPLICATION<br>ENGINEER</small>
+          </h1>
+          <p class="hero-intro reveal is-visible">用 Java 构建 LLM 应用工程，用全栈能力把复杂业务落到真实系统。覆盖 Prompt、Function Calling、LangGraph 工作流、政企交付与金融接口对接。</p>
           <div class="hero-actions reveal is-visible">
-            <a class="button button-primary" href="#projects">查看项目 <span aria-hidden="true">↓</span></a>
-            <button class="button button-secondary" type="button" data-action="open-resume">项目速览 <span aria-hidden="true">↗</span></button>
+            <a class="button button-primary" href="#projects">探索代表项目 <span aria-hidden="true">↓</span></a>
+            <button class="button button-secondary" type="button" data-action="open-resume">快速了解我 <span aria-hidden="true">↗</span></button>
           </div>
         </div>
         <aside class="hero-index reveal is-visible" aria-label="作品集数据概览">
@@ -57,15 +67,19 @@
           <p>已归档项目</p>
           <dl>
             <div><dt>FOCUS</dt><dd>FULL STACK + AI</dd></div>
-            <div><dt>TOOLS</dt><dd>CLAUDE / CURSOR / CODEX</dd></div>
+            <div><dt>CORE</dt><dd>JAVA / LLM / SYSTEM</dd></div>
             <div><dt>MODE</dt><dd>BUILD · VERIFY · SHIP</dd></div>
           </dl>
         </aside>
+        </div>
       </div>
-      <div class="hero-ticker" aria-hidden="true">
-        <div class="ticker-track">
-          <span>PRODUCT THINKING</span><i>✳</i><span>AI-NATIVE DELIVERY</span><i>✳</i><span>AI APPLICATION ENGINEERING</span><i>✳</i>
-          <span>PRODUCT THINKING</span><i>✳</i><span>AI-NATIVE DELIVERY</span><i>✳</i><span>AI APPLICATION ENGINEERING</span><i>✳</i>
+      <div class="case-orbit" aria-label="代表项目快速入口">
+        <div class="case-title">
+          <span>SELECTED SYSTEMS</span>
+          <p>悬停预览 / 点击进入项目详情</p>
+        </div>
+        <div class="case-track">
+          <div id="hero-project-row" class="case-row"></div>
         </div>
       </div>
     </section>

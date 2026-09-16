@@ -14,6 +14,20 @@ const projects = [
     source: ""
   },
   {
+    id: "ai-ppt",
+    title: "AI 智能 PPT 生成平台",
+    category: "人工智能",
+    year: "2026",
+    color: "#70e6e3",
+    textColor: "#101c27",
+    summary: "使用 Java 构建的 LLM 内容生成平台，覆盖文档解析、大纲规划、页面生成、AI 编辑、质量检查与原生 PPTX 导出。",
+    stack: ["Java 21", "Spring Boot", "LangChain4j", "LangGraph4j", "Redis", "React"],
+    features: ["System / User Prompt 与 JSON 结构化输出", "LangGraph4j 生成、校验与反馈修复工作流", "Function Calling 驱动的 AI 单页编辑工具", "Redis 异步任务、SSE 进度与失败重试", "PDF / Word / Markdown 解析与 PPTX 回读验证"],
+    role: "AI 应用全栈开发 / Java LLM 应用开发",
+    aiMode: "LLM 应用工程",
+    source: ""
+  },
+  {
     id: "oa-im",
     title: "OA 政务 IM 系统",
     category: "业务系统",
@@ -258,10 +272,12 @@ const projectCount = document.querySelector("#project-count");
 const projectDialog = document.querySelector("#project-dialog");
 const dialogContent = document.querySelector("#dialog-content");
 const resumeDialog = document.querySelector("#resume-dialog");
+const heroProjectRow = document.querySelector("#hero-project-row");
 
 function renderMockUI(project) {
   const mockType = {
     huiqingjia: "rent",
+    "ai-ppt": "ai-ppt",
     "oa-im": "chat",
     meeting: "calendar",
     "ethnic-ai": "ocr",
@@ -281,6 +297,45 @@ function renderMockUI(project) {
   }[project.id] || "archive";
 
   const views = {
+    "ai-ppt": `
+      <div class="mock-app mock-ai-ppt">
+        <aside class="ppt-sidebar">
+          <strong>AI PPT</strong>
+          <button class="is-active">项目</button>
+          <button>素材</button>
+          <button>模板</button>
+          <small>JAVA / LLM</small>
+        </aside>
+        <main>
+          <header><span>生成工作台 / 产品发布方案</span><b>EXPORT PPTX</b></header>
+          <div class="ppt-flow">
+            <span class="is-done">01 文档解析</span><i></i>
+            <span class="is-done">02 大纲规划</span><i></i>
+            <span class="is-active">03 页面生成</span><i></i>
+            <span>04 质量检查</span>
+          </div>
+          <section class="ppt-canvas">
+            <div class="ppt-outline">
+              <b>演示文稿大纲</b>
+              <span class="is-active">01 / 产品愿景</span>
+              <span>02 / 核心能力</span>
+              <span>03 / 技术架构</span>
+              <span>04 / 交付计划</span>
+            </div>
+            <div class="ppt-slide">
+              <small>PRODUCT / 01</small>
+              <h4>把复杂材料<br>变成清晰表达</h4>
+              <div class="ppt-bars"><i></i><i></i><i></i></div>
+            </div>
+            <div class="ppt-agent">
+              <b>AI AGENT</b>
+              <p>结构校验通过</p>
+              <p>版式适配完成</p>
+              <p class="running">正在生成第 3 / 8 页</p>
+            </div>
+          </section>
+        </main>
+      </div>`,
     rent: `
       <div class="mock-app mock-dual mock-rent">
         <div class="dual-pane dual-web">
@@ -793,6 +848,7 @@ function projectCard(project, index) {
   const categoryClass = `cat-${project.category.replace(/[^\u4e00-\u9fa5a-zA-Z0-9]/g, "-")}`;
   const coverType = {
     huiqingjia: "dashboard",
+    "ai-ppt": "editor",
     "oa-im": "chat",
     meeting: "calendar",
     "ethnic-ai": "scanner",
@@ -851,6 +907,18 @@ function renderProjects() {
   projectCount.textContent = String(projects.length).padStart(2, "0");
 }
 
+function renderHeroProjects() {
+  if (!heroProjectRow) return;
+  heroProjectRow.innerHTML = projects.slice(0, 8).map((project) => `
+    <button class="orbit-card" type="button" data-orbit-project="${project.id}"
+      style="--orbit-color:${project.color}" aria-label="查看${project.title}">
+      <b>${project.title}</b>
+      <small>${project.category.toUpperCase()}</small>
+      <i aria-hidden="true">↗</i>
+    </button>
+  `).join("");
+}
+
 function openProject(projectId) {
   const project = projects.find((item) => item.id === projectId);
   if (!project) return;
@@ -899,6 +967,11 @@ projectGrid.addEventListener("click", (event) => {
   if (card) openProject(card.dataset.projectId);
 });
 
+heroProjectRow?.addEventListener("click", (event) => {
+  const card = event.target.closest("[data-orbit-project]");
+  if (card) openProject(card.dataset.orbitProject);
+});
+
 document.addEventListener("click", (event) => {
   const action = event.target.closest("[data-action]")?.dataset.action;
   const aiStep = event.target.closest("[data-ai-step]");
@@ -933,6 +1006,24 @@ mainNav.addEventListener("click", () => {
   menuToggle.setAttribute("aria-expanded", "false");
   mainNav.classList.remove("is-open");
 });
+
+const hero = document.querySelector(".hero");
+const caseOrbit = document.querySelector(".case-orbit");
+let pointerFrame = 0;
+hero?.addEventListener("pointermove", (event) => {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  if (pointerFrame) cancelAnimationFrame(pointerFrame);
+  pointerFrame = requestAnimationFrame(() => {
+    const rect = hero.getBoundingClientRect();
+    const x = ((event.clientX - rect.left) / rect.width - .5) * -24;
+    const y = ((event.clientY - rect.top) / rect.height - .5) * -18;
+    hero.style.setProperty("--hero-shift-x", `${x.toFixed(2)}px`);
+    hero.style.setProperty("--hero-shift-y", `${y.toFixed(2)}px`);
+  });
+});
+window.addEventListener("scroll", () => {
+  caseOrbit?.classList.toggle("is-page-scrolled", window.scrollY > 28);
+}, { passive: true });
 
 /* ---------- 打字机标题 ---------- */
 function initTypewriter() {
@@ -1026,6 +1117,7 @@ function initCountUp() {
 
 renderFilters();
 renderProjects();
+renderHeroProjects();
 initTypewriter();
 initReveal();
 initCountUp();
