@@ -1180,9 +1180,17 @@ hero?.addEventListener("pointermove", (event) => {
     hero.style.setProperty("--hero-shift-y", `${y.toFixed(2)}px`);
   });
 });
+function updatePageProgress() {
+  const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 0;
+  document.documentElement.style.setProperty("--page-progress", progress.toFixed(4));
+}
+
 window.addEventListener("scroll", () => {
   caseOrbit?.classList.toggle("is-page-scrolled", window.scrollY > 28);
+  updatePageProgress();
 }, { passive: true });
+updatePageProgress();
 
 function initHeroOrbitMotion() {
   if (!heroProjectRow || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -1223,6 +1231,106 @@ function initHeroOrbitMotion() {
 
   activateNextCard();
   resumeOrbit();
+}
+
+function initProofConsole() {
+  const proofConsole = document.querySelector("[data-proof-console]");
+  if (!proofConsole) return;
+  const tabs = [...proofConsole.querySelectorAll("[data-proof-target]")];
+  const panels = [...proofConsole.querySelectorAll("[data-proof-panel]")];
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let activeIndex = 0;
+  let proofTimer = 0;
+  let proofPointerFrame = 0;
+
+  const activateProof = (index) => {
+    activeIndex = (index + tabs.length) % tabs.length;
+    const target = tabs[activeIndex].dataset.proofTarget;
+    tabs.forEach((tab) => {
+      const active = tab.dataset.proofTarget === target;
+      tab.classList.toggle("is-active", active);
+      tab.setAttribute("aria-selected", String(active));
+    });
+    panels.forEach((panel) => {
+      const active = panel.dataset.proofPanel === target;
+      panel.classList.toggle("is-active", active);
+      panel.hidden = !active;
+    });
+  };
+
+  const pauseProof = () => {
+    clearInterval(proofTimer);
+    proofTimer = 0;
+  };
+
+  const resumeProof = () => {
+    if (reducedMotion || proofTimer || document.hidden) return;
+    proofTimer = setInterval(() => activateProof(activeIndex + 1), 6200);
+  };
+
+  tabs.forEach((tab, index) => {
+    tab.addEventListener("click", () => activateProof(index));
+    tab.addEventListener("keydown", (event) => {
+      if (!["ArrowDown", "ArrowRight", "ArrowUp", "ArrowLeft", "Home", "End"].includes(event.key)) return;
+      event.preventDefault();
+      const nextIndex = event.key === "Home"
+        ? 0
+        : event.key === "End"
+          ? tabs.length - 1
+          : index + (["ArrowDown", "ArrowRight"].includes(event.key) ? 1 : -1);
+      const nextTab = tabs[(nextIndex + tabs.length) % tabs.length];
+      nextTab.focus();
+      nextTab.click();
+    });
+  });
+
+  proofConsole.addEventListener("pointermove", (event) => {
+    if (reducedMotion) return;
+    if (proofPointerFrame) cancelAnimationFrame(proofPointerFrame);
+    proofPointerFrame = requestAnimationFrame(() => {
+      const rect = proofConsole.getBoundingClientRect();
+      const x = ((event.clientX - rect.left) / rect.width) * 100;
+      const y = ((event.clientY - rect.top) / rect.height) * 100;
+      proofConsole.style.setProperty("--proof-x", `${x.toFixed(2)}%`);
+      proofConsole.style.setProperty("--proof-y", `${y.toFixed(2)}%`);
+    });
+  });
+  proofConsole.addEventListener("pointerenter", pauseProof);
+  proofConsole.addEventListener("pointerleave", resumeProof);
+  proofConsole.addEventListener("focusin", pauseProof);
+  proofConsole.addEventListener("focusout", (event) => {
+    if (!proofConsole.contains(event.relatedTarget)) resumeProof();
+  });
+
+  const metrics = [...document.querySelectorAll("[data-proof-count]")];
+  const animateMetrics = () => {
+    const startedAt = performance.now();
+    const duration = reducedMotion ? 0 : 900;
+    const tick = (now) => {
+      const ratio = duration ? Math.min(1, (now - startedAt) / duration) : 1;
+      const eased = 1 - Math.pow(1 - ratio, 3);
+      metrics.forEach((metric) => {
+        const target = Number(metric.dataset.proofCount);
+        metric.textContent = String(Math.round(target * eased)).padStart(2, "0");
+      });
+      if (ratio < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  };
+
+  if ("IntersectionObserver" in window) {
+    const metricObserver = new IntersectionObserver((entries) => {
+      if (!entries[0].isIntersecting) return;
+      animateMetrics();
+      metricObserver.disconnect();
+    }, { threshold: .35 });
+    metricObserver.observe(document.querySelector(".proof-metrics"));
+  } else {
+    animateMetrics();
+  }
+
+  activateProof(0);
+  resumeProof();
 }
 
 /* ---------- 打字机标题 ---------- */
@@ -1319,6 +1427,7 @@ renderFilters();
 renderProjects();
 renderHeroProjects();
 initHeroOrbitMotion();
+initProofConsole();
 initTypewriter();
 initReveal();
 initCountUp();

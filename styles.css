@@ -6,8 +6,8 @@
   --acid: #d9ff3f;
   --orange: #ff7043;
   --line: rgba(245, 241, 232, .2);
-  --mono: "DM Mono", monospace;
-  --sans: "Noto Sans SC", sans-serif;
+  --mono: "Cascadia Code", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  --sans: "Microsoft YaHei UI", "PingFang SC", "Noto Sans SC", sans-serif;
 }
 
 * { box-sizing: border-box; }
