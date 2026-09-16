@@ -241,9 +241,10 @@ const projects = [
   }
 ];
 
-const state = { category: "全部", keyword: "" };
+const representativeProjectIds = new Set(["ai-ppt", "huiqingjia", "oa-im", "meeting", "ethnic-ai"]);
+const state = { category: "代表工程", keyword: "" };
 const colors = ["#d9ff3f", "#ff7043", "#7dd3fc", "#e8d6ff", "#f4ce70", "#a7f3d0", "#fda4af", "#fdba74", "#bfdbfe", "#c4b5fd", "#bef264"];
-const filters = ["全部", ...new Set(projects.map((project) => project.category))];
+const filters = ["代表工程", "全部", ...new Set(projects.map((project) => project.category))];
 
 /* 刷新/后退/带 hash 访问后始终回到页面最顶部；保留用户主动点击锚点的行为 */
 if ("scrollRestoration" in history) history.scrollRestoration = "manual";
@@ -842,7 +843,7 @@ function renderMockUI(project) {
   return `
     <section class="project-demo interactive-demo" data-demo-project="${project.id}">
       <div class="demo-bar">
-        <span>LIVE UI DEMO</span>
+        <span>基于真实业务结构 · 交互演示</span>
         <div class="demo-bar-actions">
           <span class="demo-live"><i></i> 可交互</span>
           <button type="button" data-demo-action="reset">重置界面</button>
@@ -912,7 +913,9 @@ function renderFilters() {
 function renderProjects() {
   const keyword = state.keyword.trim().toLowerCase();
   const filtered = [...projects].sort((left, right) => Number(Boolean(right.featured)) - Number(Boolean(left.featured))).filter((project) => {
-    const inCategory = state.category === "全部" || project.category === state.category;
+    const inCategory = state.category === "代表工程"
+      ? representativeProjectIds.has(project.id)
+      : state.category === "全部" || project.category === state.category;
     const searchable = [project.title, project.category, project.summary, ...project.stack, ...project.features].join(" ").toLowerCase();
     return inCategory && (!keyword || searchable.includes(keyword));
   });
@@ -962,6 +965,12 @@ function openProject(projectId) {
         <div><h3>承担角色</h3><p>${project.role}</p></div>
         <div><h3>核心范围</h3><ul>${project.features.map((feature) => `<li>${feature}</li>`).join("")}</ul></div>
       </div>
+      <footer class="dialog-evidence-footer">
+        <span>界面说明：基于真实业务结构重建，用于展示功能与交互，不包含生产数据。</span>
+        ${project.source
+          ? `<a class="repo-link" href="${project.source}" target="_blank" rel="noreferrer">查看公开源码 <i aria-hidden="true">↗</i></a>`
+          : `<small>PRIVATE / SOURCE NOT PUBLIC</small>`}
+      </footer>
     </article>
   `;
   prepareInteractiveDemo();
